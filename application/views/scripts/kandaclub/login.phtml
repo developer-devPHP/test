@@ -1,0 +1,46 @@
+<div id='login_form'>
+<div class="logo"></div>
+<?php if (!empty($this->errorsMessages)): ?>
+		<div class="alert alert-error">
+			<a class="close" href="#" data-dismiss="alert">&times;</a>
+		 
+		    <?php foreach ($this->errors as $key => $error): ?>
+		    	<?php if (!empty($error)): ?>
+		    		<label for="<?php echo $key ?>">
+		    			<strong>
+		    			    <?php echo $this->login_form->getElement($key)->getLabel()." : "; ?>
+		    			</strong>
+		    			<?php foreach ($error as $e): ?>
+		    				<?php echo $this->errorsMessages[$key][$e]; ?>
+		    			<?php endforeach; ?>
+		    		</label>
+		    	<?php endif; ?>
+		    <?php endforeach; ?>
+		     
+		</div>
+<?php endif; ?>
+<?php if(!empty($this->response_message)): ?>
+	<div class="alert alert-error">
+		<a class="close" href="#" data-dismiss="alert">&times;</a>
+		<strong>
+		   <?php echo $this->response_message; ?>
+		</strong>
+	</div>
+<?php endif; ?>
+<h3> Please sign in</h3>
+<form class="form-horizontal" enctype="multipart/form-data"
+	method="post" action="">
+	        <?php
+                    echo $this->login_form->username;
+                    echo $this->login_form->password;
+                    echo $this->login_form->remember_me;
+                    echo $this->login_form->captcha;
+            ?>
+            <div class="controls clearfix">
+            	<?php  echo $this->login_form->login; ?>
+            </div>
+
+	         
+</form>
+
+</div>

@@ -1,0 +1,12 @@
+body{
+	padding-top: 80px;
+}
+#map_canvas{
+	margin-bottom: 30px;
+	height: 300px;	
+}
+.logo{
+	background: url("../images/logo-for-site.png");
+	height: 30px;
+	margin-bottom: 20px;
+}

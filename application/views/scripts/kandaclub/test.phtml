@@ -1,0 +1,29 @@
+<div class="errors">
+		<?php
+$errors = $this->form->getErrors();
+$errorsMessages = $this->form->getMessages();
+?>
+		<?php if (!empty($errorsMessages)): ?>
+			<ul>
+					<?php
+    // print_r($errorsMessages);
+    foreach ($errors as $key => $error)
+    :
+        ?>
+				<?php if (!empty($error)): ?>
+				<li> 
+				    <?php echo $this->form->getElement($key)->getLabel().":"; ?>
+				<ul>
+				<?php foreach ($error as $e): ?>
+					<li><?php echo $errorsMessages[$key][$e]; // $e ." ". $key ?></li>
+				<?php endforeach; ?>
+				</ul>
+		</li>
+				<?php endif; ?>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
+	</div>
+<?php
+
+echo $this->form;

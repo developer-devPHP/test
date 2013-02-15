@@ -1,0 +1,29 @@
+<?php echo $this->doctype("XHTML1_STRICT"); ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/reset.css'), 
+        'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/main.css'), 
+        'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/login_reg.css'), 
+        'screen');
+
+$this->headScript()->appendFile($this->baseUrl('public/js/jquery-1.8.2.min.js'));
+
+echo $this->headLink();
+echo $this->headScript();
+
+$this->headLink()->exchangeArray(array());
+$this->headScript()->exchangeArray(array());
+
+?>
+<head>
+</head>
+<body>
+    <div class="login_reg_header">
+	    <a href="<?php echo $this->url(array('action' => 'login'),'my_default_route',true) ?>"></a>
+	</div>
+	<div id="site_center">
+		<?php echo $this->layout()->content; ?>
+	</div>
+</body>

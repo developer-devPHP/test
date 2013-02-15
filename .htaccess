@@ -1,0 +1,19 @@
+RewriteEngine On
+#RewriteBase /~kandaclu/
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+Options -Indexes
+
+SetEnvIfNoCase Referer "^$" local_ref=1
+SetEnvIfNoCase Referer "^http://(www\.)?localhost" local_ref=1
+
+
+Order Deny,Allow 
+Deny from all 
+Allow from env=local_ref 
+

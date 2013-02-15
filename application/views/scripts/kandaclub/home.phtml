@@ -1,0 +1,133 @@
+<?php if (!empty($this->errorsMessages)): ?>
+		<div class="alert alert-error">
+			<a class="close" href="#" data-dismiss="alert">&times;</a>
+		    <?php foreach ($this->errors as $key => $error): ?>
+		    	<?php if (!empty($error)): ?>
+		    		<label for="<?php echo $key ?>">
+		    			<strong>
+		    			    <?php echo $this->search_form->getElement($key)->getLabel()." : "; ?>
+		    			</strong>
+		    			<?php foreach ($error as $e): ?>
+		    				<?php echo $this->errorsMessages[$key][$e]; ?>
+		    			<?php endforeach; ?>
+		    		</label>
+		    	<?php endif; ?>
+		    <?php endforeach; ?>
+		     
+		</div>
+<?php endif; ?>
+<div id="map_canvas">
+	<img style="width: 100%; height: 300px;" alt="" src="<?php echo $this->baseUrl('/public/images/map.jpg'); ?>" />
+</div>
+
+<form id="base_search_form" name="base_search_form" class="form-horizontal"
+	enctype="multipart/form-data" method="post" action="">
+	
+	<?php
+        echo $this->search_form->city_hotel_name;
+        echo $this->search_form->check_in_date;
+        echo $this->search_form->check_out_date;
+        echo $this->search_form->number_of_nights;
+        echo $this->search_form->city_hotel_hidden; 
+		echo $this->search_form->select_rooms;
+		 
+	?>
+	    
+	<table class="search_submit_table">
+	    <tbody>
+	        <?php echo $this->search_form->search_submit; ?>
+	    </tbody>
+	</table>
+</form>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAH7GhegXs-hDUQZu4P5Pui9U_tB-l71BM&sensor=false&language=en"></script>
+
+<?php
+// echo $this->search_form;
+$a = array('a'=>'asdasd');
+?>
+<script type="text/javascript">
+<!--
+jQuery(function($){
+	$('#city_hotel_name').keyup(function(event){
+		
+		switch (event.keyCode) 
+		{
+        //    case 8:  // Backspace
+                //console.log('backspace');
+            case 9:  // Tab
+            case 13: // Enter
+            case 16: // Shift
+            case 17: // Ctrl
+            case 18: // Alt
+            case 33: // Page UP
+            case 34: // Page Down
+            case 37: // Left
+            case 38: // Up
+            case 39: // Right
+            case 40: // Down
+            break;
+    
+            default:
+            {
+                //alert(event.keyCode);
+                $('#city_hotel_hidden').val(null);
+                $('#search_submit').attr('disabled','disabled');
+            }
+
+        
+        }
+	});
+	$("#city_hotel_name").autocomplete('<?php echo $this->url(array('action'=>'getallcityshotels'),'my_ajax_route',true); ?>', {
+		//matchContains: true,
+
+		selectFirst: false,
+		//mustMatch: true,
+		minChars: 2,
+		max: 20
+	});
+	$("#city_hotel_name").result(function(event, data, formatted) {
+		if (data)
+		{
+			$('#search_submit').removeAttr('disabled');
+		    $('#city_hotel_hidden').val(data[1]);
+		    
+		    titleText = 'asdasd';
+		    var obj = jQuery.parseJSON(data[2]);
+
+		    if(obj.serhs.acom_latitude !=undefined && obj.serhs.acom_longitude != undefined)
+		    {
+		    	zoom_precent = 22;
+		    	gps_latitude = obj.serhs.acom_latitude;
+		    	gps_longitude = obj.serhs.acom_longitude;
+		    }
+		    else
+		    {
+			    if(obj.serhs.city_latitude !=undefined && obj.serhs.city_longitude != undefined)
+			    {
+			    	zoom_precent = 12;
+			    	gps_latitude = obj.serhs.city_latitude;
+			    	gps_longitude = obj.serhs.city_longitude;
+			    }
+		    }
+		    
+		    lt = gps_latitude; //obj.serhs.latitude;
+		    lg = gps_longitude; //obj.serhs.longitude;
+		    if(lt != null && lg != null)
+		    {
+		        init_map(lt, lg, titleText,zoom_precent);
+		    }
+		    else
+		    {
+			    
+		    }
+		}
+		
+	});
+/*	$("#enter_city").result(function(event, data, formatted) {
+		if (data)
+			$(this).parent().next().find("input").val(data[1]);
+	});*/
+	
+});
+//-->
+</script>

@@ -1,0 +1,101 @@
+<?php echo $this->doctype("XHTML1_STRICT"); ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<?php
+echo $this->headMeta();
+echo $this->headTitle();
+
+
+/*  $this->headLink(array('rel' => 'icon', 'type'=>'image/x-icon', 'href' =>
+  $this->baseUrl('/public/images/favicon.ico')), 'PREPEND'); */
+ 
+
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/reset.css'), 
+        'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/main.css'), 
+        'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('/public/css/forms.css'), 
+        'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('/public/js_css_plugins/custom_search/jquery.autocomplete.css'), 
+        'screen');
+
+$this->headLink()->appendStylesheet(
+        $this->baseUrl(
+                '/public/js_css_plugins/jquery_ui/eggplant/jquery-ui-1.8.24.css'), 
+        'screen');
+/*$this->headLink()->appendStylesheet(
+        $this->baseUrl('/public/js_css_plugins/flexselect/flexselect.css'), 
+        'screen');*/
+
+$this->headScript()->appendFile(
+        $this->baseUrl('/public/js/jquery-1.8.2.min.js'));
+$this->headScript()->appendFile(
+        $this->baseUrl(
+                '/public/js_css_plugins/jquery_ui/jquery-ui-1.8.24.min.js'));
+/*$this->headScript()->appendFile(
+        $this->baseUrl('/public/js_css_plugins/corner/curvycorners.js'));*/
+$this->headScript()->appendFile(
+        $this->baseUrl('/public/js_css_plugins/flexselect/liquidmetal.js'));
+$this->headScript()->appendFile(
+        $this->baseUrl('/public/js_css_plugins/flexselect/jquery.flexselect.js'));
+$this->headScript()->appendFile(
+        $this->baseUrl('/public/js_css_plugins/custom_search/jquery.autocomplete.js'));
+
+$this->headScript()->appendFile($this->baseUrl('/public/js/my_js_styles.js'));
+$this->headScript()->appendFile($this->baseUrl('/public/js/my_js_corner.js'));
+
+$this->headScript()->appendFile(
+        $this->baseUrl('/public/js/my_js_functional.js'));
+
+echo $this->headLink();
+echo $this->headScript();
+
+$this->headLink()->exchangeArray(array());
+$this->headScript()->exchangeArray(array());
+
+?>
+</head>
+<body>
+	<div id="site_center">
+		<div class="header">
+			<a class="logo" href="<?php echo $this->url(array('action'=>'home'),'my_default_route',true) ?>"> <img alt="logo"
+				src="<?php echo $this->baseUrl('/public/images/logo.png') ?>" />
+			</a>
+			<h1>SLOGAN</h1>
+			<div class="login_info">
+				<ul>
+					<li>Hello <?php echo $this->layout()->username; ?></li>
+					<li><a href="<?php echo $this->url(array('action'=>'logout'),'my_default_route',true); ?>">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="top_menu">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Home</a></li>
+			</ul>
+		</div>
+		<div class="content_center">
+			<div class="left_menu">
+				<div class="left_menu_top">
+					<h4>My Booking</h4>
+				</div>
+				<ul>
+					<li><a href="#">asd</a></li>
+					<li><a href="#">asd</a></li>
+					<li><a href="#">asd</a></li>
+				</ul>
+			</div>
+			<div class="content">
+				<?php echo $this->layout()->content; ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	    <input type="hidden" id="mydate" value="<?php echo date('m-d-Y'); ?>"/>
+</body>
+</html>
