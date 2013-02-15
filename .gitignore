@@ -3,4 +3,8 @@ LICENSE.txt
 README.txt
 demos/
 extras/documentation
+.settings/
+.project
+.buildpath
+.zfproject.xml
 
