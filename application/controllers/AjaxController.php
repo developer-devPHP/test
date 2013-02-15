@@ -56,7 +56,7 @@ class AjaxController extends Zend_Controller_Action
             $search_hotels_values = $search_hotels;
         }
         
-        echo "<pre>";
+       // echo "<pre>";
         //print_r($search_hotels_values);exit;
         
         $all_result = array_merge($search_items_values,$search_hotels_values);
@@ -89,6 +89,10 @@ class AjaxController extends Zend_Controller_Action
                  $hidden_element = Zend_Json::encode($hiden_array);
                  $gps_data = Zend_Json::encode($gps_data);
                  
+                 $hot_name = '';
+                 $city_name = '';
+                 $country_name = '';
+                 
                   if(!empty($all_result[$i]['serhs_accommodation_name']))
                   {
                       $hot_name = $all_result[$i]['serhs_accommodation_name'];
@@ -97,9 +101,28 @@ class AjaxController extends Zend_Controller_Action
                   {
                       $hot_name = $all_result[$i]['Supplier_Name'];
                   }
+                  
+                  if(!empty($all_result[$i]['serhs_city_name']))
+                  {
+                  	$city_name = $all_result[$i]['serhs_city_name'];
+                  }
+                  elseif(!empty($all_result[$i]['City_Name']))
+                  {
+                  	$city_name = $all_result[$i]['City_Name'];
+                  }
+                  
+                  if(!empty($all_result[$i]['serhs_country_name']))
+                  {
+                  	$country_name = $all_result[$i]['serhs_country_name']; 
+                  }
+                  elseif (!empty($all_result[$i]['country_name']))
+                  {
+                  	$country_name = $all_result[$i]['country_name'];
+                  }
+                  
+                  
                  
-                 //$public_element = $hot_name.' / '.$all_result[$i]['serhs_city_name']. ' / '. $all_result[$i]['serhs_country_name'];
-                  $public_element = $hot_name;
+                 $public_element = $hot_name.' / '.$city_name. ' / '. $country_name;
              }
              elseif (array_key_exists('serhs_city_name',$all_result[$i]))
              {

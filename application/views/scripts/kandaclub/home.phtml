@@ -93,7 +93,10 @@ jQuery(function($){
 		    
 		    titleText = 'asdasd';
 		    var obj = jQuery.parseJSON(data[2]);
-
+		    
+		    gps_latitude = null;
+		    gps_longitude = null;
+		    
 		    if(obj.serhs.acom_latitude !=undefined && obj.serhs.acom_longitude != undefined)
 		    {
 		    	zoom_precent = 22;
