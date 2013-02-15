@@ -14,13 +14,12 @@ echo "<pre>";
  //print_r($all_info);
  //exit;
 
-  /*$cities_array = $desert_action->My_Desert_get_cities(); 
+  $cities_array = $desert_action->My_Desert_get_cities(); 
   if($cities_array!=false) 
   { 
-      print_r($cities_array);exit;
-  //$cron_work->My_insert_desert_cities($cities_array); 
-  }*/ 
- /* $services_array =  $desert_action->My_Desert_get_services(); 
+     $cron_work->My_insert_desert_cities($cities_array); 
+  }
+  /*$services_array =  $desert_action->My_Desert_get_services(); 
   if ($services_array!=false) 
   {
   //$cron_work->My_insert_desert_services($services_array); 

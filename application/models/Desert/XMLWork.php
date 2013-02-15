@@ -91,22 +91,32 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
 			</GetLocationsRequest>
 		</Request>
 EOD;*/
-        $xml = <<<XML
-<!DOCTYPE Request SYSTEM "hostConnect_2_77_310.dtd">
+    	/*
+    	 * <!DOCTYPE Request SYSTEM "hostConnect_2_77_310.dtd">
  
 <Request>
   <SupplierInfoRequest>
-    <AgentID>KAN001</AgentID>
-    <Password>KANXXX</Password>
+   <AgentID>{$this->My_agent_id}</AgentID>
+    <Password>{$this->My_agent_password}</Password>
     <SupplierCode>??????</SupplierCode>
   </SupplierInfoRequest>
 </Request>
+    	 * 
+    	 * */
+        $xml = <<<XML
+        <!DOCTYPE Request SYSTEM "hostConnect_2_77_310.dtd">
+	<Request>
+			<GetLocationsRequest>
+				<AgentID>{$this->My_agent_id}</AgentID>
+    			<Password>{$this->My_agent_password}</Password>
+			</GetLocationsRequest>
+		</Request>
 XML;
         $result_array = $this->My_xml_to_array($xml);
-        print_r($result_array);exit;
-        if (is_array($result_array))
+
+        if ( isset($result_array->GetLocationsReply->Locations))
         {
-            return $result_array['GetLocationsReply']['Locations']['Location'];
+            return $result_array->GetLocationsReply->Locations;
         }
         else
         {

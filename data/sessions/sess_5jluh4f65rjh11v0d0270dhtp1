@@ -1,1 +1,0 @@
-Default|a:1:{s:11:"initialized";b:1;}Zend_Auth|a:1:{s:7:"storage";s:5:"admin";}Zend_User_Login|a:1:{s:12:"users_params";O:8:"stdClass":3:{s:7:"user_ID";s:1:"1";s:8:"username";s:5:"admin";s:10:"company_id";s:1:"1";}}__ZF|a:1:{s:15:"Zend_User_Login";a:1:{s:3:"ENT";i:1358638655;}}

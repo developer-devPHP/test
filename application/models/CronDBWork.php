@@ -32,9 +32,9 @@ class Application_Model_CronDBWork extends Zend_Db_Table
         {
             $this->My_DB->getConnection()->query($sql_empty_table);
             
-            foreach ($cities_array as $city)
+            foreach ($cities_array->Location as $city)
             {
-                if ($city['Name'] == "General")
+                if ($city->Name == "General")
                 {
                     continue;
                     /*
@@ -47,8 +47,8 @@ class Application_Model_CronDBWork extends Zend_Db_Table
                 }
                 else
                 {
-                    $city_name = $this->My_DB->quote($city['Name']);
-                    $city_code = $this->My_DB->quote($city['Code']);
+                    $city_name = $this->My_DB->quote($city->Name);
+                    $city_code = $this->My_DB->quote($city->Code);
                     $sql_inser_city = "INSERT INTO desert_cities (City_Name,City_Shortcode) VALUES ({$city_name},{$city_code})";
                 }
                 $this->My_DB->getConnection()->query($sql_inser_city);
