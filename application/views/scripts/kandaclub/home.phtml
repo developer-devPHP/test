@@ -96,20 +96,22 @@ jQuery(function($){
 		    
 		    gps_latitude = null;
 		    gps_longitude = null;
-		    
-		    if(obj.serhs.acom_latitude !=undefined && obj.serhs.acom_longitude != undefined)
+		    if(obj.serhs != undefined)
 		    {
-		    	zoom_precent = 22;
-		    	gps_latitude = obj.serhs.acom_latitude;
-		    	gps_longitude = obj.serhs.acom_longitude;
-		    }
-		    else
-		    {
-			    if(obj.serhs.city_latitude !=undefined && obj.serhs.city_longitude != undefined)
+			    if(obj.serhs.acom_latitude !=undefined && obj.serhs.acom_longitude != undefined)
 			    {
-			    	zoom_precent = 12;
-			    	gps_latitude = obj.serhs.city_latitude;
-			    	gps_longitude = obj.serhs.city_longitude;
+			    	zoom_precent = 22;
+			    	gps_latitude = obj.serhs.acom_latitude;
+			    	gps_longitude = obj.serhs.acom_longitude;
+			    }
+			    else
+			    {
+				    if(obj.serhs.city_latitude !=undefined && obj.serhs.city_longitude != undefined)
+				    {
+				    	zoom_precent = 12;
+				    	gps_latitude = obj.serhs.city_latitude;
+				    	gps_longitude = obj.serhs.city_longitude;
+				    }
 			    }
 		    }
 		    

@@ -83,19 +83,19 @@ class Application_Model_FrontDBWork
         
         $sql = "
                 SELECT *
+                FROM desert_cities
+                ORDER BY desert_city_name ASC
+        		
+                ";
+        
+        /*
+         * 
+         *  SELECT *
                 FROM serhs_countries S_country
                 INNER JOIN serhs_cities AS S_city ON (S_city.serhs_country_code = S_country.serhs_country_code)
                 LEFT OUTER JOIN desert_cities AS D_city ON (D_city.City_Name = S_city.serhs_city_name)
                 
                 ORDER BY S_city.serhs_city_name ASC
-            
-                
-                ";
-        /*
-         *   LEFT JOIN desert_cities AS D_city ON (D_city.City_Name = D_city.City_Name)
-         *   
-         *  INNER JOIN serhs_cities AS S_city ON (S_city.serhs_country_code = S_country.serhs_country_code)
-                INNER JOIN serhs_accommodations AS S_accomod ON (S_accomod.serhs_country_code = S_country.serhs_country_code  AND S_accomod.serhs_city_code = S_city.serhs_city_code )
          * 
          * */
         $result = $this->My_DB->getConnection()
@@ -114,31 +114,48 @@ class Application_Model_FrontDBWork
          * */
         $sql = "
                 
+                       		
                 SELECT *
+                FROM desert_cities D_city
+                
+                INNER JOIN desert_suppliers AS D_suppl ON(D_suppl.desert_city_code = D_city.desert_city_code )
+                ORDER BY 
+        			if(desert_supplier_name = '' OR desert_supplier_name IS NULL,1,0),desert_supplier_name
+        		
+               
+                
+                "; 
+        
+        /*
+         * 
+         * 
+         *  SELECT *
                 FROM serhs_countries S_country
                 INNER JOIN serhs_cities AS S_city ON (S_city.serhs_country_code = S_country.serhs_country_code)
-                LEFT OUTER JOIN desert_cities AS D_city ON (D_city.City_Name = S_city.serhs_city_name)
+                LEFT OUTER JOIN desert_cities AS D_city ON (D_city.desert_city_name = S_city.serhs_city_name)
                 
                 INNER JOIN serhs_accommodations AS S_accom ON (S_accom.serhs_country_code = S_country.serhs_country_code  AND S_accom.serhs_city_code = S_city.serhs_city_code )
-                LEFT OUTER JOIN desert_suppliers AS D_suppl ON(D_suppl.Supplier_Name = S_accom.serhs_accommodation_name AND D_suppl.desert_city_code = D_city.City_Shortcode )
-        		INNER JOIN desert_cities AS D_city_n ON(D_city_n.City_Shortcode = D_suppl.desert_city_code)	
+                LEFT OUTER JOIN desert_suppliers AS D_suppl ON(D_suppl.Supplier_Name = S_accom.serhs_accommodation_name AND D_suppl.desert_city_code = D_city.desert_city_code )
+        		INNER JOIN desert_cities AS D_city_n ON(D_city_n.desert_city_code = D_suppl.desert_city_code)	
                 
                 UNION ALL
                 
                 SELECT *
                 FROM serhs_countries S_country
                 INNER JOIN serhs_cities AS S_city ON (S_city.serhs_country_code = S_country.serhs_country_code)
-                RIGHT OUTER JOIN desert_cities AS D_city ON (D_city.City_Name = S_city.serhs_city_name)
+                RIGHT OUTER JOIN desert_cities AS D_city ON (D_city.desert_city_name = S_city.serhs_city_name)
                 
                 INNER JOIN serhs_accommodations AS S_accom ON (S_accom.serhs_country_code = S_country.serhs_country_code  AND S_accom.serhs_city_code = S_city.serhs_city_code )
-                RIGHT OUTER JOIN desert_suppliers AS D_suppl ON(D_suppl.Supplier_Name = S_accom.serhs_accommodation_name AND D_suppl.desert_city_code = D_city.City_Shortcode )
-        		INNER JOIN desert_cities AS D_city_n ON (D_city_n.City_Shortcode = D_suppl.desert_city_code)
+                RIGHT OUTER JOIN desert_suppliers AS D_suppl ON(D_suppl.Supplier_Name = S_accom.serhs_accommodation_name AND D_suppl.desert_city_code = D_city.desert_city_code )
+        		INNER JOIN desert_cities AS D_city_n ON (D_city_n.desert_city_code = D_suppl.desert_city_code)
                
-                ORDER BY if(serhs_accommodation_name = '' or serhs_accommodation_name is null,1,0),serhs_accommodation_name
-                
-               
-                
-                "; ///  ORDER BY S_accom.serhs_accommodation_name ASC
+                ORDER BY 
+        			if(serhs_accommodation_name = '' OR serhs_accommodation_name IS NULL,1,0),serhs_accommodation_name
+        			OR if(Supplier_Name = '' OR Supplier_Name IS NULL,1,0),Supplier_Name
+
+         * 
+         * 
+         * */
         
         $result = $this->My_DB->getConnection()
         ->query($sql)

@@ -79,6 +79,29 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
     		}
         }
     }
+    
+    public function My_Desert_get_countrys()
+    {
+    	$xml = <<<XML
+    	<!DOCTYPE Request SYSTEM "hostConnect_2_77_310.dtd">
+		<Request>
+			<GetSystemSettingsRequest>
+				<AgentID>{$this->My_agent_id}</AgentID>
+    			<Password>{$this->My_agent_password}</Password>
+			</GetSystemSettingsRequest>
+		</Request>
+XML;
+        $result_xml = $this->My_xml_to_array($xml);
+    	
+    	if ( isset($result_array->GetSystemSettingsReply->Countries))
+    	{
+    		return $result_array->GetSystemSettingsReply->Countries;
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    }
 
     public function My_Desert_get_cities ()
     {

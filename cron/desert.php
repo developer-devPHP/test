@@ -14,11 +14,18 @@ echo "<pre>";
  //print_r($all_info);
  //exit;
 
-  $cities_array = $desert_action->My_Desert_get_cities(); 
+	$country_xml_data = $desert_action->My_Desert_get_countrys();
+	if($cities_array!=false) 
+  	{ 
+    //	Insert anem datan 
+  	}
+
+  /*$cities_array = $desert_action->My_Desert_get_cities(); 
   if($cities_array!=false) 
   { 
      $cron_work->My_insert_desert_cities($cities_array); 
-  }
+  }*/
+
   /*$services_array =  $desert_action->My_Desert_get_services(); 
   if ($services_array!=false) 
   {

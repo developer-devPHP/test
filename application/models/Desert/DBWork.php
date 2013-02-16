@@ -10,7 +10,7 @@ class Application_Model_Desert_DBWork
         $this->My_DB = Zend_Db_Table::getDefaultAdapter();
         $this->My_cache = new MyLib_Cache();
     }
-    private function My_Desert_insert_to_temp($data_array)
+    protected function My_Desert_insert_to_temp($data_array)
     {
         if (Zend_Session::namespaceIsset('Zend_User_Login'))
         {

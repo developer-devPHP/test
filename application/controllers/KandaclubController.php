@@ -140,6 +140,7 @@ class KandaclubController extends Zend_Controller_Action
       //  $al_countrys = $this->My_front_DB->My_get_all_countrys();
        // $all_citys = $this->My_front_DB->My_get_all_cities();
         //$all_hotels = $this->My_front_DB->My_get_all_hotels();
+       
         
         $search_form = $this->My_front_form->My_search_form();
         
