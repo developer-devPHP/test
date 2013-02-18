@@ -83,8 +83,9 @@ class Application_Model_FrontDBWork
         
         $sql = "
                 SELECT *
-                FROM desert_cities
-                ORDER BY desert_city_name ASC
+                FROM desert_countries D_country
+        		INNER JOIN desert_cities AS D_city ON (D_city.desert_city_name = D_country.desert_country_city_name)
+                ORDER BY D_city.desert_city_name ASC
         		
                 ";
         
@@ -116,7 +117,8 @@ class Application_Model_FrontDBWork
                 
                        		
                 SELECT *
-                FROM desert_cities D_city
+        		FROM desert_countries D_country
+                INNER JOIN desert_cities AS D_city ON (D_city.desert_city_name = D_country.desert_country_city_name)
                 
                 INNER JOIN desert_suppliers AS D_suppl ON(D_suppl.desert_city_code = D_city.desert_city_code )
                 ORDER BY 

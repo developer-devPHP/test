@@ -22,8 +22,39 @@ class Application_Model_CronDBWork extends Zend_Db_Table
             ->query($sql)
             ->fetchAll();
     }
-
-    public function My_insert_desert_cities ($cities_array)
+    
+ 	public function My_insert_desert_countrys($countrys_obj)
+    {
+    	$sql_empty_table = "DELETE FROM desert_countries WHERE 1";
+    	
+    	$this->My_DB->beginTransaction();
+    	try
+    	{
+    		$this->My_DB->getConnection()->query($sql_empty_table);
+    		foreach ($countrys_obj->Country as $country)
+    		{
+    			$country_name = $this->My_DB->quote($country->CountryName);
+    			foreach ($country->DestinationNames->DestinationName as $city)
+    			{
+    				$city_name = $this->My_DB->quote($city);
+    				$sql= "INSERT INTO  desert_countries(desert_country_name,desert_country_city_name)
+    				VALUES ({$country_name},{$city_name})";
+    				$this->My_DB->getConnection()->query($sql);
+    			}
+    		}
+    		$this->My_DB->commit();
+    		return true;
+    	}
+    	catch (Exception $e)
+    	{
+    		$this->My_DB->rollBack();
+    		echo $e->getMessage();
+    		exit;
+    		return false;
+    	}
+    }
+    
+    public function My_insert_desert_cities ($cities_obj)
     {
         $sql_empty_table = "DELETE FROM desert_cities WHERE 1";
         
@@ -32,7 +63,7 @@ class Application_Model_CronDBWork extends Zend_Db_Table
         {
             $this->My_DB->getConnection()->query($sql_empty_table);
             
-            foreach ($cities_array->Location as $city)
+            foreach ($cities_obj->Location as $city)
             {
                 if ($city->Name == "General")
                 {
@@ -49,19 +80,19 @@ class Application_Model_CronDBWork extends Zend_Db_Table
                 {
                     $city_name = $this->My_DB->quote($city->Name);
                     $city_code = $this->My_DB->quote($city->Code);
-                    $sql_inser_city = "INSERT INTO desert_cities (City_Name,City_Shortcode) VALUES ({$city_name},{$city_code})";
+                    $sql_inser_city = "INSERT INTO desert_cities (desert_city_name,desert_city_code) VALUES ({$city_name},{$city_code})";
                 }
                 $this->My_DB->getConnection()->query($sql_inser_city);
             }
             
             $this->My_DB->commit();
             
-            // print_r($cities_array);
+            // print_r($cities_obj);
         }
         catch (Exception $e)
         {
             $this->My_DB->rollBack();
-            // echo $e->getMessage();exit;
+             echo $e->getMessage();exit;
         }
     }
 
@@ -113,16 +144,16 @@ class Application_Model_CronDBWork extends Zend_Db_Table
                 $desert_city_code = $this->My_DB->quote(
                         mb_substr($supplier->Opt, 0, 3));
                 
-                if (! empty($supplier->OptGeneral->Address5))
+                /*if (! empty($supplier->OptGeneral->Address5))
                 {
                     $country_name = explode(' ', 
                             str_replace('.', '', 
                                     $supplier->OptGeneral->Address5));
                     $country_name = $this->My_DB->quote($country_name[0]);
-                }
+                }*/
                 
-                $desert_service_code = $this->My_DB->quote(
-                        mb_substr($supplier->Opt, 3, 2));
+              /*  $desert_service_code = $this->My_DB->quote(
+                        mb_substr($supplier->Opt, 3, 2));*/
                 
                 if (! empty($supplier->OptGeneral->ClassDescription))
                 {
@@ -134,7 +165,7 @@ class Application_Model_CronDBWork extends Zend_Db_Table
                 // {$country_name} {$desert_service_code} {$hotel_star_name}
                 // </br> RAKACACA00103001 ";exit;
                 
-                $sql_if_not_exist = "SELECT count(*) FROM desert_suppliers WHERE Supplier_Code={$supplier_code}";
+                $sql_if_not_exist = "SELECT count(*) FROM desert_suppliers WHERE desert_supplier_code={$supplier_code}";
                 
                 $exist_status = $this->My_DB->getConnection()
                     ->query($sql_if_not_exist)
@@ -144,8 +175,8 @@ class Application_Model_CronDBWork extends Zend_Db_Table
                 {
                     
                     $sql_insert_supplier = "
-								INSERT INTO desert_suppliers (Supplier_Name,Supplier_Code,desert_city_code,country_name,desert_service_code,hotel_star_name) 
-										VALUES ({$supplier_name},{$supplier_code},{$desert_city_code},{$country_name},{$desert_service_code},{$hotel_star_name})
+								INSERT INTO desert_suppliers (desert_supplier_name,desert_supplier_code,desert_city_code,desert_hotel_star_name) 
+										VALUES ({$supplier_name},{$supplier_code},{$desert_city_code},{$hotel_star_name})
 								";
                     $this->My_DB->getConnection()->query($sql_insert_supplier);
                 }

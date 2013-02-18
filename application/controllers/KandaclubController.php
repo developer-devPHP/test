@@ -248,15 +248,6 @@ class KandaclubController extends Zend_Controller_Action
          $auth = Zend_Auth::getInstance();
          $auth->clearIdentity();
          Zend_Session::destroy(true);
-         $sessions_list = glob(MY_SESSION_DIRECTORY . "/sess_*");
-         foreach ($sessions_list as $ses)
-         {
-             if ( 0 == filesize( $ses ) )
-             {
-                 chmod($ses, 0777);
-                 unlink($ses);
-             }
-         }
          
          $this->getResponse()->setRedirect($this->view->url(array('action'=>'login'),'my_default_route',true));
     }

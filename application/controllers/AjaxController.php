@@ -11,10 +11,10 @@ class AjaxController extends Zend_Controller_Action
 
     public function init ()
     {
-        /*if (! $this->getRequest()->isXmlHttpRequest())
+        if (! $this->getRequest()->isXmlHttpRequest())
         {
             $this->getResponse()->setRedirect($this->view->url(array('action'=>'home'),'my_default_route',true));
-        }*/
+        }
         
         $this->_helper->layout()->disableLayout();
         $this->My_front_DB = new Application_Model_FrontDBWork();
@@ -33,15 +33,15 @@ class AjaxController extends Zend_Controller_Action
         if (!$q) return;
         
         /* TOP MENU CACHE START*/
-        $search_items = $this->My_cache->My_cache_set('My_all_search_items');
+        $search_cities = $this->My_cache->My_cache_set('My_all_search_cities');
         
-        if ( $search_items === true)
+        if ( $search_cities === true)
         {
-            $search_items_values = $this->My_cache->My_cache_set('My_all_search_items', null , true , $this->My_front_DB->My_All_serach_citys() );
+            $search_cities_values = $this->My_cache->My_cache_set('My_all_search_cities', null , true , $this->My_front_DB->My_All_serach_citys() );
         }
         else
         {
-            $search_items_values = $search_items;
+            $search_cities_values = $search_cities;
         }
         /* TOP MENU CACHE END */
         
@@ -59,7 +59,7 @@ class AjaxController extends Zend_Controller_Action
         //echo "<pre>";
       // print_r($search_hotels_values);exit;
         
-        $all_result = array_merge($search_items_values,$search_hotels_values);
+        $all_result = array_merge($search_cities_values,$search_hotels_values);
         
         
        // print_r($all_result);exit;

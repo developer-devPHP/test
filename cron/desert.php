@@ -5,40 +5,40 @@ $application->bootstrap();
 ini_set('memory_limit', '-1');
 $desert_action = new Application_Model_Desert_XMLWork();
 $cron_work = new Application_Model_CronDBWork();
-echo "<pre>";
+//echo "<pre>";
 
 // print_r($cron_work->My_test());exit;
 
- //$all_info = $desert_action->My_Desert_get_all_info();
+// $all_info = $desert_action->My_Desert_get_all_info();
 
- //print_r($all_info);
- //exit;
+// print_r($all_info);
+// exit;
 
-	$country_xml_data = $desert_action->My_Desert_get_countrys();
-	if($cities_array!=false) 
-  	{ 
-    //	Insert anem datan 
-  	}
+$country_xml_obj = $desert_action->My_Desert_get_countrys();
+if ($country_xml_obj != false)
+{
+	// Insert anem datan
+	$cron_work->My_insert_desert_countrys($country_xml_obj);
+}
 
-  /*$cities_array = $desert_action->My_Desert_get_cities(); 
-  if($cities_array!=false) 
-  { 
-     $cron_work->My_insert_desert_cities($cities_array); 
-  }*/
+$cities_array = $desert_action->My_Desert_get_cities();
+if ($cities_array != false)
+{
+	$cron_work->My_insert_desert_cities($cities_array);
+}
 
-  /*$services_array =  $desert_action->My_Desert_get_services(); 
-  if ($services_array!=false) 
-  {
-  //$cron_work->My_insert_desert_services($services_array); 
-  }*/
- 
+/*
+ * $services_array = $desert_action->My_Desert_get_services(); if
+ * ($services_array!=false) {
+ * //$cron_work->My_insert_desert_services($services_array); }
+ */
 
 $suppliers_array = $desert_action->My_Desert_get_all_info();
 if ($suppliers_array != false)
 {
-    // print_r($suppliers_array);exit;
-    $cron_work->My_insert_desert_suppliers($suppliers_array);
-    // $cron_work->My_insert_desert_cities_suppl_kaper($suppliers_array);
+	// print_r($suppliers_array);exit;
+	$cron_work->My_insert_desert_suppliers($suppliers_array);
+	// $cron_work->My_insert_desert_cities_suppl_kaper($suppliers_array);
 }
 
 //$city_and_supplier_kaper = $cron_work->My_select_all_desert_cites_and_suppliers();

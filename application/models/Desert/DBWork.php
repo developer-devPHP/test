@@ -22,7 +22,7 @@ class Application_Model_Desert_DBWork
             {
                 $this->My_DB->beginTransaction();
 
-                $sql_delete = "DELETE FROM temp WHERE user_id = {$user_id}";
+                $sql_delete = "DELETE FROM all_search_temp WHERE user_id = {$user_id}";
                 $this->My_DB->getConnection()->query($sql_delete);
 
                 foreach ($data_array['OptionInfoReply']['Option'] as $data)

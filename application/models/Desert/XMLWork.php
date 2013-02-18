@@ -55,6 +55,7 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
         }
         else
         {
+        	throw new Exception('Timeout error more 200 seconds',500);
         	$result_array = $xml_response;
             	// = //$xml_response; //Zend_Json::decode(Zend_Json::encode($xml_response)); //Zend_Json::TYPE_ARRAY
         }
@@ -91,11 +92,11 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
 			</GetSystemSettingsRequest>
 		</Request>
 XML;
-        $result_xml = $this->My_xml_to_array($xml);
+        $result_xml_obj = $this->My_xml_to_array($xml);
     	
-    	if ( isset($result_array->GetSystemSettingsReply->Countries))
+    	if ( isset($result_xml_obj->GetSystemSettingsReply->Countries))
     	{
-    		return $result_array->GetSystemSettingsReply->Countries;
+    		return $result_xml_obj->GetSystemSettingsReply->Countries;
     	}
     	else
     	{

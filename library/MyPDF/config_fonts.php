@@ -198,7 +198,7 @@ $this->fontdata = array(
  * 'mingliub.ttc', 'TTCfontID' => array ( 'R' => 2, ), ), 'mingliu_hkscs-extb'
  * => array ( 'R' => 'mingliub.ttc', 'TTCfontID' => array ( 'R' => 3, ), ),
  */
-
+)
 ;
 
 // Add fonts to this array if they contain characters in the SIP or SMP Unicode
