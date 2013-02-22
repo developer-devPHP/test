@@ -55,7 +55,7 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
         }
         else
         {
-        	throw new Exception('Timeout error more 200 seconds',500);
+        	//throw new Exception('Timeout error more 200 seconds',500);
         	$result_array = $xml_response;
             	// = //$xml_response; //Zend_Json::decode(Zend_Json::encode($xml_response)); //Zend_Json::TYPE_ARRAY
         }
@@ -292,57 +292,76 @@ XML;
     
     public function My_Desert_get_search_info($search_options)
     {
-    	try {
+    	try 
+    	{
 
-    	$today = date('d-Y',time());    
-    	$check_in_date = $search_options['check_in_date'];
-    	$check_out_date = $search_options['check_out_date'];
-    	$search_option_tag = Zend_Json::decode($search_options['city_hotel_hidden'],Zend_Json::TYPE_ARRAY);
+    		$today = date('d-Y',time());    
+    		$check_in_date = $search_options['check_in_date'];
+    		$check_out_date = $search_options['check_out_date'];
+    		$search_option_tag = Zend_Json::decode($search_options['city_hotel_hidden'],Zend_Json::TYPE_ARRAY);
     	
-    	$option = null;
-    	if(isset($search_option_tag['desert']['city']))
-    	{
-    		$option = $search_option_tag['desert']['city']."AC????????????";
-    	}
+	    	$option = null;
+	    	if(isset($search_option_tag['desert']['city']))
+	    	{
+	    		$option = $search_option_tag['desert']['city']."AC????????????";
+	    	}
+	    	elseif(isset($search_option_tag['desert']['hotel'])) 
+	    	{
+	    		$option = "???AC{$search_option_tag['desert']['hotel']}??????";
+	    	}
+	    	else 
+	    	{
+	    		return false;
+	    	}
     	
-    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Desert_'.$today.'_from_'.$check_in_date.'_to_'.$check_out_date.'_value_'.$option);
-    	
-    	$cache_data = $this->My_cache->My_cache_set($cache_name);
-    	
-    	if($cache_data === true)
-    	{
-	    	$xml = "
-	
-			<!DOCTYPE Request SYSTEM 'hostConnect_2_77_310.dtd'>
-			<Request>
-				 <OptionInfoRequest>
-			    	<AgentID>{$this->My_agent_id}</AgentID>
-			    	<Password>{$this->My_agent_password}</Password>
-					<Opt>{$option}</Opt>
-					<Info>GS</Info>
-					<DateFrom>{$check_in_date}</DateFrom>
-			    	<DateTo>{$check_out_date}</DateTo>
-					<RoomConfigs>";
+	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Desert_'.$today.'_from_'.$check_in_date.'_to_'.$check_out_date.'_value_'.$option);
 	    	
-			      		
-			 $xml .= "
-			 			<RoomConfig>
-			        		<Adults>1</Adults>
-			        		<RoomType>SG</RoomType>
-			      		</RoomConfig>
-			    	</RoomConfigs>
-			    <MaximumOptions>20</MaximumOptions>
-			  </OptionInfoRequest>
-			    	
-			</Request>
-			";
-			 
-			 $xml_array = $this->My_xml_to_array($xml);
-			 $cache_data = $this->My_cache->My_cache_set($cache_name,null,true,$xml_array);
-			 
-    	}
-    	
-    	return $cache_data;
+	    	$cache_data = $this->My_cache->My_cache_set($cache_name);
+	    	
+	    	if($cache_data === true)
+	    	{
+		    	$xml = "
+		
+				<!DOCTYPE Request SYSTEM 'hostConnect_2_77_310.dtd'>
+				<Request>
+					 <OptionInfoRequest>
+				    	<AgentID>{$this->My_agent_id}</AgentID>
+				    	<Password>{$this->My_agent_password}</Password>
+						<Opt>{$option}</Opt>
+						<Info>GS</Info>
+						<DateFrom>{$check_in_date}</DateFrom>
+				    	<DateTo>{$check_out_date}</DateTo>
+						<RoomConfigs>";
+		    	
+				      		
+				 $xml .= "
+				 			<RoomConfig>
+				        		<Adults>1</Adults>
+				        		<RoomType>SG</RoomType>
+				      		</RoomConfig>
+				    	</RoomConfigs>
+				  </OptionInfoRequest>
+				    	
+				</Request>
+				";
+				 // <MaximumOptions>20</MaximumOptions>
+				 $xml_obj = $this->My_xml_to_array($xml);
+				 if (isset($xml_obj->OptionInfoReply)&& !empty($xml_obj->OptionInfoReply))
+				 {
+				 	$to_temp = $this->My_Desert_insert_to_temp($xml_obj->OptionInfoReply);
+				 }
+				 
+				 else
+				 {
+				 	return false;
+				 }
+				 //$cache_data = $this->My_cache->My_cache_set($cache_name,null,true,$xml_array);
+				 
+	    	}
+	    	else 
+	    	{
+	    		return true;
+	    	}
 		 
     	}
     	catch (Exception $e)

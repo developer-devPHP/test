@@ -172,6 +172,17 @@ class Application_Model_FrontDBWork
         $check_out_date = $form_submit_values['check_out_date'];
         
         $today = date('d-Y',time());
+        $search_option_tag = Zend_Json::decode($form_submit_values['city_hotel_hidden'],Zend_Json::TYPE_ARRAY);
+         
+        $option = null;
+        if(isset($search_option_tag['desert']['city']))
+        {
+        	$option = $search_option_tag['desert']['city']."AC????????????";
+        }
+        elseif(isset($search_option_tag['desert']['hotel']))
+        {
+        	$option = "???AC{$search_option_tag['desert']['hotel']}??????";
+        }
 
         //$search_cache = $this->My_cache->My_cache_set($cache_name);
         
