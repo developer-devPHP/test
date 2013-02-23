@@ -155,11 +155,7 @@ class KandaclubController extends Zend_Controller_Action
             {
                 $form_submit = $search_form->getValues();
                
-                $search_options = new Zend_Session_Namespace('Search_options');
-                $search_options->__set('search_options', $form_submit);
-                
-                $this->My_front_DB->My_set_search_result_db($form_submit);
-               
+                $result = $this->My_front_DB->My_set_search_result_db($form_submit);
                 
                 // $this->render('searchresul');
                 // echo Zend_Registry::get('test_reg');
@@ -167,7 +163,17 @@ class KandaclubController extends Zend_Controller_Action
                  * $this->_forward('searchresult', null, null, array( 'as' =>
                  * array( 'asd' => 'asdasd', 'er' => 'asdad' ) ));
                  */
-                // $this->getResponse()->setRedirect($this->view->url(array('action'=>'searchresult'),'my_default_route',true));
+                if($result == true)
+                {
+                	$search_options = new Zend_Session_Namespace('Search_options');
+                	$search_options->__set('search_options', $form_submit);
+                	
+                 	$this->getResponse()->setRedirect($this->view->url(array('action'=>'searchresult'),'my_default_route',true));
+                }
+                else
+                {
+                	$this->view->response_message = "At this moment we can't find any result in your request, please try again later";
+                }
             }
             else 
             {
@@ -189,8 +195,20 @@ class KandaclubController extends Zend_Controller_Action
     	{
     		$search_options = Zend_Session::namespaceGet('Search_options');
     		echo '<pre>';
-    		print_r($search_options['search_options']);
-       
+    		//print_r($search_options['search_options']);
+    		$user_info = Zend_Session::namespaceGet('Zend_User_Login');
+    		$user_id = $user_info['users_params']->user_ID;
+    		
+    		$search_result = $this->My_front_DB->My_get_search_result_db($user_id, $search_options); 
+    		/*$paginator = new Zend_Paginator ( new Zend_Paginator_Adapter_Array ( $search_result ) );
+    		$paginator->setCurrentPageNumber ( $this->_getParam ( 'page' ) );
+    		$paginator->setItemCountPerPage ( 10 );
+    		$paginator->setPageRange ( 3 );*/
+    		
+    		print_r($search_result);
+    		//$paginator->setCacheEnabled(true);
+    		
+    		
           //  $post_data = $this->getRequest()->getPost();
           //  $booking_form_rend = '<ul>';
            /* for ($i = 0; $i < 5; $i ++)

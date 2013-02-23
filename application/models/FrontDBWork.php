@@ -168,28 +168,51 @@ class Application_Model_FrontDBWork
     
     public function My_set_search_result_db($form_submit_values)
     {
-        $check_in_date = $form_submit_values['check_in_date'];
-        $check_out_date = $form_submit_values['check_out_date'];
-        
-        $today = date('d-Y',time());
-        $search_option_tag = Zend_Json::decode($form_submit_values['city_hotel_hidden'],Zend_Json::TYPE_ARRAY);
-         
-        $option = null;
-        if(isset($search_option_tag['desert']['city']))
-        {
-        	$option = $search_option_tag['desert']['city']."AC????????????";
-        }
-        elseif(isset($search_option_tag['desert']['hotel']))
-        {
-        	$option = "???AC{$search_option_tag['desert']['hotel']}??????";
-        }
-
-        //$search_cache = $this->My_cache->My_cache_set($cache_name);
         
     	$desert = $this->My_Desert->My_Desert_get_search_info($form_submit_values);
     	
-    	echo '<pre>';
-    	print_r($desert);
+    	if ($desert == true) 
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    }
+    
+ 	public function My_get_search_result_db($user_id,$request_info)
+    {
+    	try {
+	    	$user_id = intval($user_id);
+
+	    	$check_in_date = $request_info['search_options']['check_in_date'];
+	    	$check_out_date = $request_info['search_options']['check_out_date'];
+	    	$options_place = $request_info['search_options']['city_hotel_hidden'];
+
+	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Search_result_user_'.$user_id.'_'.$check_in_date.$check_out_date.$options_place);
+	    	$cache_data = $this->My_cache->My_cache_set($cache_name);
+	    	if($cache_data === true)
+	    	{
+	    		$sql = "SELECT * FROM  all_search_temp WHERE user_id = {$user_id}";
+	    		
+	    		$search_result = $this->My_DB->getConnection()->query($sql)->fetchAll();
+	    		$cache_time = 60 * 60 * 24;
+	    		$temp = $this->My_cache->My_cache_set($cache_name, null, true, $search_result, $cache_time);
+	    	
+	    		return $search_result;
+	    	}
+	    	else 
+	    	{
+	    		return $cache_data;
+	    	}
+    	}
+    	catch (Exception $e)
+    	{
+    		print_r($e->getMessage());
+    		exit;
+    	}
+    	
     }
     
 }

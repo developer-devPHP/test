@@ -16,7 +16,7 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
         parent::__construct();
         $this->My_http_client = new Zend_Http_Client(null, 
                 array(
-                        'timeout' => 200
+                        'timeout' => 20000
                 ));
         
         $this->My_http_client->setUri(
@@ -294,7 +294,6 @@ XML;
     {
     	try 
     	{
-
     		$today = date('d-Y',time());    
     		$check_in_date = $search_options['check_in_date'];
     		$check_out_date = $search_options['check_out_date'];
@@ -349,6 +348,11 @@ XML;
 				 if (isset($xml_obj->OptionInfoReply)&& !empty($xml_obj->OptionInfoReply))
 				 {
 				 	$to_temp = $this->My_Desert_insert_to_temp($xml_obj->OptionInfoReply);
+				 	
+				 	$cache_time = 60 * 60 * 24;
+				 	$this->My_cache->My_cache_set($cache_name, null, true, array('data_inserted_into_db'), $cache_time);
+				 	
+				 	return $to_temp;
 				 }
 				 
 				 else

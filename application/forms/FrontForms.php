@@ -335,7 +335,7 @@ class Application_Form_FrontForms
        {
            $select_rooms->addMultiOption($i, $i);
        }
-       $form->addElement($select_rooms,'select_rooms');
+      // $form->addElement($select_rooms,'select_rooms');
 
       /* for($i=1; $i<5; $i++)
        {*/

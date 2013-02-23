@@ -3,10 +3,10 @@
 class MyLib_Cache
 {
     
-    public function My_cache_set( $cache_name, $lang_short_name=null,$cache_status = false, $cache_array = NULL ){
+    public function My_cache_set( $cache_name, $lang_short_name=NULL,$cache_status = false, $cache_array = NULL, $time = NULL  ){
         
         $frontendOptions = array(
-                'lifetime' => 60 * 60 * 24, // one day
+                'lifetime' => $time, // one day 60 * 60 * 24
                 'automatic_serialization' => true
         );
          

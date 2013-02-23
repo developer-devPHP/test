@@ -16,6 +16,14 @@
 		     
 		</div>
 <?php endif; ?>
+<?php if(!empty($this->response_message)): ?>
+	<div class="alert alert-error">
+		<a class="close" href="#" data-dismiss="alert">&times;</a>
+		<strong>
+		   <?php echo $this->response_message; ?>
+		</strong>
+	</div>
+<?php endif; ?>
 <div id="map_canvas">
 	<img style="width: 100%; height: 300px;" alt="" src="<?php echo $this->baseUrl('/public/images/map.jpg'); ?>" />
 </div>
