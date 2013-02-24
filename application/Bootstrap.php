@@ -2,10 +2,13 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-
-private $view_page;
+	private $view_page;
     protected function _initDbRegistry()
     {
+    	set_time_limit(99999999);
+    	ini_set('memory_limit', '1000M');
+    	date_default_timezone_set('Asia/Yerevan');
+    	
         $this->bootstrap('multidb');
         $multidb = $this->getPluginResource('multidb');
         Zend_Registry::set('db_public', $multidb->getDb('public_user'));

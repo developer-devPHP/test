@@ -183,18 +183,22 @@ class Application_Model_FrontDBWork
     
  	public function My_get_search_result_db($user_id,$request_info)
     {
+    	$search_result = array();
     	try {
 	    	$user_id = intval($user_id);
-
+	    	
+	    	$today = date('d-Y',time());
 	    	$check_in_date = $request_info['search_options']['check_in_date'];
 	    	$check_out_date = $request_info['search_options']['check_out_date'];
 	    	$options_place = $request_info['search_options']['city_hotel_hidden'];
 
-	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Search_result_user_'.$user_id.'_'.$check_in_date.$check_out_date.$options_place);
+	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Search_result_user_'.$today.'_'.$user_id.'_'.$check_in_date.$check_out_date.$options_place);
 	    	$cache_data = $this->My_cache->My_cache_set($cache_name);
 	    	if($cache_data === true)
 	    	{
-	    		$sql = "SELECT * FROM  all_search_temp WHERE user_id = {$user_id}";
+	    		$sql = "SELECT * FROM  all_search_temp 
+	    		WHERE user_id = {$user_id}
+	    		ORDER BY price";
 	    		
 	    		$search_result = $this->My_DB->getConnection()->query($sql)->fetchAll();
 	    		$cache_time = 60 * 60 * 24;
@@ -209,8 +213,16 @@ class Application_Model_FrontDBWork
     	}
     	catch (Exception $e)
     	{
-    		print_r($e->getMessage());
-    		exit;
+    		if(APPLICATION_ENV == 'development')
+    		{
+    			echo 'Function '.__FUNCTION__.' in class '.__CLASS__.' directory '.dirname(__FILE__).' on line'. __LINE__ .' <br>';
+    			print_r($e->getMessage());
+    			exit();
+    		}
+    		else 
+    		{
+    			return $search_result;
+    		}
     	}
     	
     }

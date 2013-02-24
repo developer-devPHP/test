@@ -16,7 +16,7 @@ class Application_Model_Desert_XMLWork extends Application_Model_Desert_DBWork
         parent::__construct();
         $this->My_http_client = new Zend_Http_Client(null, 
                 array(
-                        'timeout' => 20000
+                        'timeout' => 200
                 ));
         
         $this->My_http_client->setUri(

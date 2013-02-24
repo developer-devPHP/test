@@ -1,8 +1,4 @@
 <?php
-set_time_limit(99999999);
-ini_set('memory_limit', '1000M');
-
-date_default_timezone_set('Asia/Yerevan');
 // Define session save path
 defined('MY_SESSION_DIRECTORY') ||
          define('MY_SESSION_DIRECTORY', 
@@ -21,7 +17,7 @@ defined('APPLICATION_PATH') ||
 // Define application environment
 defined('APPLICATION_ENV') ||
          define('APPLICATION_ENV', 
-                (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development')); // development  // production
+                (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production')); // development  // production
                                                                                                                        
 // Ensure library/ is on include_path
 set_include_path(

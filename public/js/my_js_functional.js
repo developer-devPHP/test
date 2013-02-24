@@ -1,5 +1,5 @@
 jQuery(function($){
-
+	
 /*	$('#enter_country,#enter_city,#search_by_hotel_name').flexselect({
 		preSelection: false
 	});*/
