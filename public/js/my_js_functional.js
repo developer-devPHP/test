@@ -204,7 +204,7 @@ function init_map(lt,lg,titleText,zoom_precent)
 	    mapTypeId: google.maps.MapTypeId.ROADMAP  //ROADMAP  HYBRID
 	  };
 	  var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-	  var image = '/kandaclub/public/images/marker.png';
+	  var image = 'http://maps.gstatic.com/mapfiles/icon.png';
 	  var contentString = '<div id="mapContentWindow">'+titleText+'</div>';
 	 
 	   marker = new google.maps.Marker({
