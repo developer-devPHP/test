@@ -47,7 +47,7 @@
 	    </tbody>
 	</table>
 </form>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?&key=AIzaSyAH7GhegXs-hDUQZu4P5Pui9U_tB-l71BM&sensor=false&language=en"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?&key=AIzaSyAH7GhegXs-hDUQZu4P5Pui9U_tB-l71BM&sensor=true&language=en"></script>
 
 <?php
 // echo $this->search_form;
@@ -100,37 +100,54 @@ jQuery(function($){
 		    $('#city_hotel_hidden').val(data[1]);
 		    
 		    titleText = 'asdasd';
-		    var obj = jQuery.parseJSON(data[2]);
-		    
+		    var obj_map = jQuery.parseJSON(data[2]);
+		    var obj_reserv_map = jQuery.parseJSON(data[3]);
 		    gps_latitude = null;
 		    gps_longitude = null;
-		    if(obj.serhs != undefined)
+		    if(obj_map.serhs != undefined)
 		    {
-			    if(obj.serhs.acom_latitude !=undefined && obj.serhs.acom_longitude != undefined)
+			    if(obj_map.serhs.acom_latitude !=undefined && obj_map.serhs.acom_longitude != undefined)
 			    {
 			    	zoom_precent = 22;
-			    	gps_latitude = obj.serhs.acom_latitude;
-			    	gps_longitude = obj.serhs.acom_longitude;
+			    	gps_latitude = obj_map.serhs.acom_latitude;
+			    	gps_longitude = obj_map.serhs.acom_longitude;
 			    }
 			    else
 			    {
-				    if(obj.serhs.city_latitude !=undefined && obj.serhs.city_longitude != undefined)
+				    if(obj_map.serhs.city_latitude !=undefined && obj_map.serhs.city_longitude != undefined)
 				    {
 				    	zoom_precent = 12;
-				    	gps_latitude = obj.serhs.city_latitude;
-				    	gps_longitude = obj.serhs.city_longitude;
+				    	gps_latitude = obj_map.serhs.city_latitude;
+				    	gps_longitude = obj_map.serhs.city_longitude;
 				    }
 			    }
 		    }
 		    
-		    lt = gps_latitude; //obj.serhs.latitude;
-		    lg = gps_longitude; //obj.serhs.longitude;
+		    lt = gps_latitude; //obj_map.serhs.latitude;
+		    lg = gps_longitude; //obj_map.serhs.longitude;
 		    if(lt != null && lg != null)
 		    {
 		        init_map(lt, lg, titleText,zoom_precent);
 		    }
 		    else
 		    {
+			    alert(obj_reserv_map);
+			    if(obj_reserv_map != undefined)
+			    {
+				    if(obj_reserv_map.acom_address !=undefined)
+				    {
+				    	//alert('test 1');
+				    }
+				    else
+				    {
+					    if(obj_reserv_map.city_address != undefined)
+					    {
+						    //alert('test 2');
+					    }
+				    }
+
+				    
+			    }
 		    	/*  var geocoder;
 		    	  var map;
 		    	  var address ="Admiral Plaza Hotel";

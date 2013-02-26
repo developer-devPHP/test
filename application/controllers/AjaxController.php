@@ -70,6 +70,7 @@ class AjaxController extends Zend_Controller_Action
              $hidden_element = '';
              $public_element = '';
              $gps_data = '';
+             $gps_reserv = '';
              
 	            
              
@@ -84,44 +85,45 @@ class AjaxController extends Zend_Controller_Action
                                  'acom_latitude'=>$all_result[$i]['serhs_accommodation_latitude'],
                                  'acom_longitude'=>$all_result[$i]['serhs_accommodation_longitude']
                          )*/
-             
                  );
+                 $gps_reserv = array(
+                 		'acom_address'=> $all_result[$i]['desert_supplier_name']
+                 );
+                 
                  $hidden_element = Zend_Json::encode($hiden_array);
                  $gps_data = Zend_Json::encode($gps_data);
+                 $gps_reserv = Zend_Json::encode($gps_reserv);
                  
                  $hot_name = '';
                  $city_name = '';
                  $country_name = '';
                  
-                  if(!empty($all_result[$i]['serhs_accommodation_name']))
-                  {
-                      $hot_name = $all_result[$i]['serhs_accommodation_name'];
-                  }
-                  elseif (!empty($all_result[$i]['desert_supplier_name']))
-                  {
-                      $hot_name = $all_result[$i]['desert_supplier_name'];
-                  }
+                 if (!empty($all_result[$i]['desert_supplier_name']))
+                 {
+                 	$hot_name = $all_result[$i]['desert_supplier_name'];
+                 }
+                 elseif(!empty($all_result[$i]['serhs_accommodation_name']))
+                 {
+                    $hot_name = $all_result[$i]['serhs_accommodation_name'];
+                 }
                   
-                  if(!empty($all_result[$i]['serhs_city_name']))
-                  {
-                  	$city_name = $all_result[$i]['serhs_city_name'];
-                  }
-                  elseif(!empty($all_result[$i]['desert_city_name']))
-                  {
-                  	$city_name = $all_result[$i]['desert_city_name'];
-                  }
-                  
-                  if(!empty($all_result[$i]['serhs_country_name']))
-                  {
+                 if(!empty($all_result[$i]['desert_city_name']))
+                 {
+                 	$city_name = $all_result[$i]['desert_city_name'];
+                 }
+                 elseif(!empty($all_result[$i]['serhs_city_name']))
+                 {
+                 	$city_name = $all_result[$i]['serhs_city_name'];
+                 }
+                 if (!empty($all_result[$i]['desert_country_name']))
+                 {
+                 	$country_name = $all_result[$i]['desert_country_name'];
+                 }
+                 elseif(!empty($all_result[$i]['serhs_country_name']))
+                 {
                   	$country_name = $all_result[$i]['serhs_country_name']; 
-                  }
-                  elseif (!empty($all_result[$i]['desert_country_name']))
-                  {
-                  	$country_name = $all_result[$i]['desert_country_name'];
-                  }
+                 }
                   
-                  
-                 
                  $public_element = $hot_name.' / '.$city_name. ' / '. $country_name;
              }
              elseif (array_key_exists('desert_city_name',$all_result[$i]))
@@ -137,93 +139,45 @@ class AjaxController extends Zend_Controller_Action
                          )*/
              
                  );
+                 $gps_reserv = array(
+                 	 		'city_address'=> $all_result[$i]['desert_city_name']
+                 );
                  
                  $city_name = '';
                  $country_name = '';
              
                  $hidden_element = Zend_Json::encode($hiden_array);
                  $gps_data = Zend_Json::encode($gps_data);
-                 
-                 if(!empty($all_result[$i]['serhs_city_name']))
-                 {
-                 	$city_name = $all_result[$i]['serhs_city_name'];
-                 }
-                 elseif(!empty($all_result[$i]['desert_city_name']))
+                 $gps_reserv = Zend_Json::encode($gps_reserv);
+                 if(!empty($all_result[$i]['desert_city_name']))
                  {
                  	$city_name = $all_result[$i]['desert_city_name'];
                  }
-
-                 if(!empty($all_result[$i]['serhs_country_name']))
+                 elseif(!empty($all_result[$i]['serhs_city_name']))
                  {
-                 	$country_name = $all_result[$i]['serhs_country_name'];
+                 	$city_name = $all_result[$i]['serhs_city_name'];
                  }
-                 elseif (!empty($all_result[$i]['desert_country_name']))
+                 if (!empty($all_result[$i]['desert_country_name']))
                  {
                  	$country_name = $all_result[$i]['desert_country_name'];
                  }
-                 
+                 elseif(!empty($all_result[$i]['serhs_country_name']))
+                 {
+                 	$country_name = $all_result[$i]['serhs_country_name'];
+                 }
+                                  
                  $public_element = $city_name.' / '.$country_name;
              }
              
              
              if (strpos(strtolower($public_element), $q) !== false)
              {
-                 echo "{$public_element}|{$hidden_element}|$gps_data \n\r";
+                 echo "{$public_element}|{$hidden_element}|{$gps_data}|{$gps_reserv} \n\r";
              }
              
              $i++;
          }
-         exit;
-     /*   foreach ($all as $all_values) 
-        {
-            $hidden_element = '';
-            $public_element = '';
-            $gps_data = '';
-            
-            if (isset($all_values['serhs_accommodation_name']))
-            {
-                $hiden_array = array(
-                        'serhs'=>array('hotel'=>$all_values['serhs_accommodation_code']),
-                        'desert'=>array('hotel'=>'My_desert_accom_code_piti_dnem')
-                        );
-                $gps_data = array(
-                        'serhs'=>array(
-                                'acom_latitude'=>$all_values['serhs_accommodation_latitude'],
-                                'acom_longitude'=>$all_values['serhs_accommodation_longitude']
-                        )
-                
-                );
-                
-                $hidden_element = Zend_Json::encode($hiden_array);
-                $gps_data = Zend_Json::encode($gps_data);
-                $public_element = $all_values['serhs_accommodation_name'].' / '.$all_values['serhs_city_name']. ' / '. $all_values['serhs_country_name'];
-            }
-            elseif (isset($all_values['serhs_city_name'])) 
-            {
-                $hiden_array = array(
-                        'serhs'=>array('city'=>$all_values['serhs_city_code']),
-                        'desert'=>array('city'=>$all_values['City_Shortcode'])
-                );
-                $gps_data = array(
-                        'serhs'=>array(
-                                'city_latitude'=>$all_values['serhs_city_latitude'],
-                                'city_longitude'=>$all_values['serhs_city_longitude']
-                                )
-                        
-                        );
-                
-                $hidden_element = Zend_Json::encode($hiden_array);
-                $gps_data = Zend_Json::encode($gps_data);
-                $public_element = $all_values['serhs_city_name'].' / '.$all_values['serhs_country_name'];                   
-            }
-                
-            
-           if (strpos(strtolower($public_element), $q) !== false) 
-            {
-                echo "{$public_element}|{$hidden_element}|$gps_data \n\r";
-        	}
-        }
-        */
+        
      //   $time_end = microtime(true);
    //     echo $time_end - $time_start;
     }
