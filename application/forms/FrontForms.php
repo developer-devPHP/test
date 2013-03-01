@@ -413,10 +413,10 @@ class Application_Form_FrontForms
             ->setMethod('post')
             ->setAttrib('enctype', 'multipart/form-data');
         
-        foreach ($from_array as $val)
+        foreach ($from_array as $key => $val)
         {
-            $input_text = new Zend_Form_Element_Text("{$val}");
-            $input_text->setLabel($val)
+            $input_text = new Zend_Form_Element_Text("{$key}");
+            $input_text->setLabel($key)
                 ->setRequired(true)
                 ->setValue($val)
                 ->setDecorators($this->My_standart_decorator);

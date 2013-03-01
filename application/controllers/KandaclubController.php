@@ -163,7 +163,7 @@ class KandaclubController extends Zend_Controller_Action
                  * $this->_forward('searchresult', null, null, array( 'as' =>
                  * array( 'asd' => 'asdasd', 'er' => 'asdad' ) ));
                  */
-                if($result == false)
+                if($result == false) //sargem true verjum
                 {
                 	$search_options = new Zend_Session_Namespace('Search_options');
                 	$search_options->__set('search_options', $form_submit);

@@ -32,7 +32,6 @@ class AjaxController extends Zend_Controller_Action
         $q = strtolower($this->getRequest()->getParam('q'));
         if (!$q) return;
         
-        /* TOP MENU CACHE START*/
         $search_cities = $this->My_cache->My_cache_set('My_all_search_cities');
         
         if ( $search_cities === true)
@@ -43,7 +42,6 @@ class AjaxController extends Zend_Controller_Action
         {
             $search_cities_values = $search_cities;
         }
-        /* TOP MENU CACHE END */
         
         $search_hotels = $this->My_cache->My_cache_set('My_all_search_hotels');
         
@@ -71,14 +69,14 @@ class AjaxController extends Zend_Controller_Action
              $public_element = '';
              $gps_data = '';
              $gps_reserv = '';
-             
+             $gps_address_data = '';
 	            
              
              if (array_key_exists('desert_supplier_name',$all_result[$i]))
              {
                  $hiden_array = array(
+                 		'desert'=>array('hotel'=>$all_result[$i]['desert_supplier_code'])
                          //'serhs'=>array('hotel'=>$all_result[$i]['serhs_accommodation_code']),
-                         'desert'=>array('hotel'=>$all_result[$i]['desert_supplier_code'])
                  );
                  $gps_data = array(
                          /*'serhs'=>array(
@@ -86,8 +84,14 @@ class AjaxController extends Zend_Controller_Action
                                  'acom_longitude'=>$all_result[$i]['serhs_accommodation_longitude']
                          )*/
                  );
+                 
+                 if(!empty($all_result[$i]['desert_supplier_name']))
+                 {
+                 	$gps_address_data = $all_result[$i]['desert_supplier_name'];
+                 }
+                 
                  $gps_reserv = array(
-                 		'acom_address'=> $all_result[$i]['desert_supplier_name']
+                 		'acom_address'=> $gps_address_data
                  );
                  
                  $hidden_element = Zend_Json::encode($hiden_array);
@@ -102,27 +106,27 @@ class AjaxController extends Zend_Controller_Action
                  {
                  	$hot_name = $all_result[$i]['desert_supplier_name'];
                  }
-                 elseif(!empty($all_result[$i]['serhs_accommodation_name']))
+                 /*elseif(!empty($all_result[$i]['serhs_accommodation_name']))
                  {
                     $hot_name = $all_result[$i]['serhs_accommodation_name'];
-                 }
+                 }*/
                   
                  if(!empty($all_result[$i]['desert_city_name']))
                  {
                  	$city_name = $all_result[$i]['desert_city_name'];
                  }
-                 elseif(!empty($all_result[$i]['serhs_city_name']))
+                 /*elseif(!empty($all_result[$i]['serhs_city_name']))
                  {
                  	$city_name = $all_result[$i]['serhs_city_name'];
-                 }
+                 }*/
                  if (!empty($all_result[$i]['desert_country_name']))
                  {
                  	$country_name = $all_result[$i]['desert_country_name'];
                  }
-                 elseif(!empty($all_result[$i]['serhs_country_name']))
+                 /*elseif(!empty($all_result[$i]['serhs_country_name']))
                  {
                   	$country_name = $all_result[$i]['serhs_country_name']; 
-                 }
+                 }*/
                   
                  $public_element = $hot_name.' / '.$city_name. ' / '. $country_name;
              }
@@ -139,8 +143,13 @@ class AjaxController extends Zend_Controller_Action
                          )*/
              
                  );
+                 if(!empty($all_result[$i]['desert_city_name']))
+                 {
+                 	$gps_address_data = $all_result[$i]['desert_city_name'];
+                 }
+                  
                  $gps_reserv = array(
-                 	 		'city_address'=> $all_result[$i]['desert_city_name']
+                 	 		'city_address'=> $gps_address_data 
                  );
                  
                  $city_name = '';
@@ -153,18 +162,18 @@ class AjaxController extends Zend_Controller_Action
                  {
                  	$city_name = $all_result[$i]['desert_city_name'];
                  }
-                 elseif(!empty($all_result[$i]['serhs_city_name']))
+                /* elseif(!empty($all_result[$i]['serhs_city_name']))
                  {
                  	$city_name = $all_result[$i]['serhs_city_name'];
-                 }
+                 }*/
                  if (!empty($all_result[$i]['desert_country_name']))
                  {
                  	$country_name = $all_result[$i]['desert_country_name'];
                  }
-                 elseif(!empty($all_result[$i]['serhs_country_name']))
+                 /*elseif(!empty($all_result[$i]['serhs_country_name']))
                  {
                  	$country_name = $all_result[$i]['serhs_country_name'];
-                 }
+                 }*/
                                   
                  $public_element = $city_name.' / '.$country_name;
              }
@@ -186,15 +195,4 @@ class AjaxController extends Zend_Controller_Action
     
     //0.88238501548767 cache while
     //38.959980964661  while
-    public function countryenterformAction ()
-    {
-        $al_countrys = $this->My_front_DB->My_get_all_countrys();
-        // $all_citys = $this->My_front_DB->My_get_all_cities();
-        // $all_hotels = $this->My_front_DB->My_get_all_hotels();
-        
-        // $search_form =
-    // $this->My_front_form->My_search_form($al_countrys,$all_citys,$all_hotels);
-        
-        // $this->view->search_form = $search_form;
-    }
 }

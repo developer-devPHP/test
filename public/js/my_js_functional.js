@@ -264,14 +264,14 @@ function init_map(lt, lg, titleText, zoom_precent)
 		icon : image
 	});
 
-	var coordInfoWindow = new google.maps.InfoWindow();
+	/*var coordInfoWindow = new google.maps.InfoWindow();
 	coordInfoWindow.setContent(contentString);
 	// coordInfoWindow.setPosition(marker);
 	coordInfoWindow.open(map);
 	google.maps.event.addListener(marker, 'click', function()
 	{
 		coordInfoWindow.open(map, marker);
-	});
+	});*/
 };
 
 function init_map_reserv(address, titleText, zoom_precent)
@@ -280,14 +280,19 @@ function init_map_reserv(address, titleText, zoom_precent)
 	// var latlng = new google.maps.LatLng(-34.397, 150.644);
 	var myOptions =
 	{
+		scrollwheel : false,
+		navigationControl : false,
+		mapTypeControl : false,
+		scaleControl : false,
+		draggable : false,
 		zoom : zoom_precent,
 		// center: latlng,
-		mapTypeControl : true,
+	//	mapTypeControl : false,
 		mapTypeControlOptions :
 		{
 			style : google.maps.MapTypeControlStyle.DROPDOWN_MENU
 		},
-		navigationControl : true,
+	//	navigationControl : true,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	};
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
@@ -303,23 +308,25 @@ function init_map_reserv(address, titleText, zoom_precent)
 				if (status != google.maps.GeocoderStatus.ZERO_RESULTS)
 				{
 					map.setCenter(results[0].geometry.location);
-
+/*
 					var infowindow = new google.maps.InfoWindow(
 					{
 						content : '<b>' + address + '</b>',
 						size : new google.maps.Size(150, 50)
 					});
-
+*/
 					var marker = new google.maps.Marker(
 					{
 						position : results[0].geometry.location,
+						animation : google.maps.Animation.DROP,
 						map : map,
 						title : address
 					});
+					/*
 					google.maps.event.addListener(marker, 'click', function()
 					{
 						infowindow.open(map, marker);
-					});
+					});*/
 
 				}
 				else

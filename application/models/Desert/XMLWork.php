@@ -294,7 +294,7 @@ XML;
     {
     	try 
     	{
-    		$today = date('d-Y',time());    
+    		//$today = date('d-Y',time());    
     		$check_in_date = $search_options['check_in_date'];
     		$check_out_date = $search_options['check_out_date'];
     		$search_option_tag = Zend_Json::decode($search_options['city_hotel_hidden'],Zend_Json::TYPE_ARRAY);
@@ -313,7 +313,7 @@ XML;
 	    		return false;
 	    	}
     	
-	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Desert_'.$today.'_from_'.$check_in_date.'_to_'.$check_out_date.'_value_'.$option);
+	    	$cache_name =  preg_replace('/[^\p{L}\p{N}]/u', '_', 'Desert_from_'.$check_in_date.'_to_'.$check_out_date.'_value_'.$option);
 	    	
 	    	$cache_data = $this->My_cache->My_cache_set($cache_name);
 	    	

@@ -131,23 +131,26 @@ jQuery(function($){
 		    }
 		    else
 		    {
-			    alert(obj_reserv_map);
+			    var address_name = null;
 			    if(obj_reserv_map != undefined)
 			    {
 				    if(obj_reserv_map.acom_address !=undefined)
 				    {
-				    	//alert('test 1');
+				    	zoom_precent = 22;
+				    	address_name = obj_reserv_map.acom_address;
 				    }
 				    else
 				    {
 					    if(obj_reserv_map.city_address != undefined)
 					    {
-						    //alert('test 2');
+					    	zoom_precent = 12;
+					    	address_name = obj_reserv_map.city_address;
 					    }
 				    }
-
 				    
 			    }
+			   // alert(address_name);
+			    init_map_reserv(address_name,titleText,zoom_precent);
 		    	/*  var geocoder;
 		    	  var map;
 		    	  var address ="Admiral Plaza Hotel";
